@@ -5,28 +5,27 @@ import { connect } from 'react-redux';
 import * as UsersActions from '../actions/UsersActions';
 import { AddUserInput, UserList } from '../components';
 
-@connect((state) => ({
-  userlist: state.userlist,
-}))
-class UserListApp extends React.Component {
-  render() {
-    const {
-      userlist: { usersById },
-      dispatch,
-    } = this.props;
-    const actions = bindActionCreators(
-      UsersActions,
-      dispatch,
-    );
+function UserListApp(props) {
+  const {
+    userlist: { usersById },
+    dispatch,
+  } = props;
+  const actions = bindActionCreators(
+    UsersActions,
+    dispatch,
+  );
 
-    return (
-      <div>
-        <h1>UserList</h1>
-        <AddUserInput addUser={actions.addUser} />
-        <UserList users={usersById} actions={actions} />
-      </div>
-    );
-  }
+  return (
+    <div className="container">
+      <h1>UserList</h1>
+      <AddUserInput addUser={actions.addUser} />
+      <UserList users={usersById} actions={actions} />
+    </div>
+  );
 }
 
-export default UserListApp;
+const mapStateToProps = (state) => ({
+  userlist: state.userlist,
+});
+
+export default connect(mapStateToProps)(UserListApp);
